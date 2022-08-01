@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation android:id="@+id/nav_graph"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/UIHome">
+
+    <fragment
+        android:id="@+id/UIHome"
+        android:name="br.com.finances.view.UIHome"
+        tools:layout="@layout/fragment_uihome" >
+        <action
+            android:id="@+id/action_UIHome_to_UISettings"
+            app:destination="@id/UISettings" />
+    </fragment>
+    <fragment
+        android:id="@+id/UISettings"
+        android:name="br.com.finances.view.UISettings"
+        tools:layout="@layout/fragment_uisettings" >
+        <action
+            android:id="@+id/action_UISettings_to_UIHome"
+            app:destination="@id/UIHome" />
+        <action
+            android:id="@+id/action_UISettings_self"
+            app:destination="@id/UISettings" />
+    </fragment>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="br.com.finances.view.MainActivity"
+        tools:layout="@layout/activity_main" />
+    <fragment
+        android:id="@+id/UIProfile"
+        android:name="br.com.finances.view.UIProfile"
+        tools:layout="@layout/fragment_uiprofile" />
+
+
+</navigation>

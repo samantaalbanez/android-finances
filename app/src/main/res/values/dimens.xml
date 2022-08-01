@@ -1,0 +1,10 @@
+<resources>
+    <dimen name="margin_fragment">15dp</dimen>
+    <dimen name="text_size_title">25sp</dimen>
+    <dimen name="text_size_subtitle">18sp</dimen>
+    <dimen name="text_size_home">20sp</dimen>
+    <dimen name="card_stroke_width">1dp</dimen>
+    <dimen name="card_elevation">5dp</dimen>
+    <dimen name="icon_size">50dp</dimen>
+    <dimen name="card_height">100dp</dimen>
+</resources>

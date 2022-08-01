@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Finances</string>
+    <string name="configuration">Configurações</string>
+    <string name="save">Salvar</string>
+    <string name="hello">Olá </string>
+    <string name="name">Nome</string>
+    <string name="value">Valor</string>
+
+    <!-- Registrations -->
+    <string name="registration_success">Salvo com sucesso!</string>
+    <string name="registration_error">Erro ao salvar!</string>
+
+    <!-- Screen Configuration -->
+    <string name="configuration_title_salary">Digite o valor do seu salário</string>
+    <string name="configuration_subtitle_salary">Precisamos do seu salário para posteriormente realizar os cálculos do seus investimentos</string>
+    <string name="configuration_name">Digite o seu nome</string>
+
+    <!-- Screen Home -->
+    <string name="home_selic_today">Taxa selic de hoje:</string>
+    <string name="home_salary_total">Seu salário atual é R$</string>
+
+    <string name="home_suggestion_investments">Sugestão de valor para investimentos: R$</string>
+    <string name="home_suggestion_expenses">Sugestão de valor para gastos mensais: R$</string>
+</resources>
