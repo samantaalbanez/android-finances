@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import br.com.finances.R
 import br.com.finances.adapter.ItemHomeAdapter
 import br.com.finances.database.ApplicationDataBase
@@ -22,9 +21,10 @@ class UIHome: Fragment() {
     private var _binding: FragmentUihomeBinding? = null
     private val binding get() = _binding!!
 
-    private var recyclerView: RecyclerView? = null
-    private var adapter: ItemHomeAdapter? = null
-    private val items: ArrayList<Home> = arrayListOf()
+    private var items: ArrayList<Home> = arrayListOf()
+    private val homeAdapter: ItemHomeAdapter by lazy {
+        ItemHomeAdapter(requireContext())
+    }
 
     private val viewModel: VMHome by viewModels {
         VMHomeFactory(
@@ -55,35 +55,41 @@ class UIHome: Fragment() {
         }
 
         viewModel.settings.observe(viewLifecycleOwner) { settings ->
-            addViewOnRecycler(
-                Home(
-                    text = TextUtils.textSalary(
-                        resources.getString(R.string.home_salary_total),
-                        settings.salary
-                    ),
-                    image = R.drawable.ic_money
+            settings?.let {
+                addViewOnRecycler(
+                    Home(
+                        text = TextUtils.textSalary(
+                            resources.getString(R.string.home_salary_total),
+                            settings.salary
+                        ),
+                        image = R.drawable.ic_money
+                    )
                 )
-            )
-            viewModel.calculateValues()
+                viewModel.calculateValues()
+            }
         }
 
         viewModel.user.observe(viewLifecycleOwner) { user ->
-            activity?.title = TextUtils.textToolbar(
-                resources.getString(R.string.hello),
-                user.name
-            )
+            user?.let {
+                activity?.title = TextUtils.textToolbar(
+                    resources.getString(R.string.hello),
+                    user.name
+                )
+            }
         }
 
         viewModel.valueExpenses.observe(viewLifecycleOwner) { value ->
-            addViewOnRecycler(
-                Home(
-                    text = TextUtils.textSuggestion(
-                        resources.getString(R.string.home_suggestion_expenses),
-                        value
-                    ),
-                    image = R.drawable.ic_money
+            value?.let {
+                addViewOnRecycler(
+                    Home(
+                        text = TextUtils.textSuggestion(
+                            resources.getString(R.string.home_suggestion_expenses),
+                            value
+                        ),
+                        image = R.drawable.ic_money
+                    )
                 )
-            )
+            }
         }
 
         viewModel.valueInvestments.observe(viewLifecycleOwner) { value ->
@@ -100,33 +106,31 @@ class UIHome: Fragment() {
     }
 
     private fun onConfigureRecycler() {
-        recyclerView = binding.recycler
-        recyclerView?.let { recycler ->
-            recycler.layoutManager = LinearLayoutManager(requireContext())
-            recycler.adapter = adapter
+        with (binding.recycler) {
+            adapter = homeAdapter
+            layoutManager = LinearLayoutManager(requireContext())
         }
     }
 
     private fun addViewOnRecycler(item: Home) {
         items.add(item)
-        recyclerView?.let { recycler ->
-            adapter = ItemHomeAdapter(items, requireContext())
-            recycler.adapter = adapter
-        }
+        homeAdapter.submitList(items)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        clearView()
         onObservers()
         onConfigureRecycler()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        recyclerView = null
-        adapter = null
-        items.clear()
-        _binding = null
+        clearView()
     }
 
+    private fun clearView() {
+        items = arrayListOf()
+        items.clear()
+    }
 }

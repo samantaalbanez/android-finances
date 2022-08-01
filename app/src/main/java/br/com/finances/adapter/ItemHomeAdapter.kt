@@ -2,38 +2,53 @@ package br.com.finances.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import br.com.finances.R
+import br.com.finances.adapter.ItemHomeAdapter.HomeViewHolder.Companion.create
+import br.com.finances.databinding.ItemHomeBinding
 import br.com.finances.model.Home
 
-class ItemHomeAdapter(private val dataSet: ArrayList<Home>, private val context: Context) :
+class ItemHomeAdapter(
+    val context: Context
+) : ListAdapter<Home, ItemHomeAdapter.HomeViewHolder>(WORDS_COMPARATOR) {
 
-    RecyclerView.Adapter<ItemHomeAdapter.ViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
+        return create(parent)
+    }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView
-        val imageView: ImageView
+    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
+        val current = getItem(position)
+        holder.bind(current, context)
+    }
 
-        init {
-            textView = view.findViewById(R.id.tvText)
-            imageView = view.findViewById(R.id.icon)
+    class HomeViewHolder(private val binding: ItemHomeBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(home: Home, context: Context) {
+            binding.tvText.text = home.text
+            binding.icon.setImageDrawable(context.getDrawable(home.image))
+        }
+
+        companion object {
+            fun create(parent: ViewGroup): HomeViewHolder {
+                val view = LayoutInflater.from(parent.context)
+                val itemBinding: ItemHomeBinding =
+                    ItemHomeBinding.inflate(view, parent, false)
+                return HomeViewHolder(itemBinding)
+            }
         }
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.item_home, viewGroup, false)
-        return ViewHolder(view)
-    }
+    companion object {
+        private val WORDS_COMPARATOR = object : DiffUtil.ItemCallback<Home>() {
+            override fun areItemsTheSame(oldItem: Home, newItem: Home): Boolean {
+                return oldItem === newItem
+            }
 
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.textView.text = dataSet[position].text
-        viewHolder.imageView.setImageDrawable(context.getDrawable(dataSet[position].image))
+            override fun areContentsTheSame(oldItem: Home, newItem: Home): Boolean {
+                return oldItem.text == newItem.text
+            }
+        }
     }
-
-    override fun getItemCount() = dataSet.size
 }

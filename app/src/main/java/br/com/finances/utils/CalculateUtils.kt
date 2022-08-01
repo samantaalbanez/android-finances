@@ -13,7 +13,7 @@ object CalculateUtils {
             val calculate = value.multiply(
                 PERCENTAGE_INVESTMENTS.toBigDecimal()
             ).divide(PERCENTAGE_HUNDRED.toBigDecimal())
-            return value.minus(calculate).format()
+            return calculate.format()
         }
     }
 
@@ -22,7 +22,7 @@ object CalculateUtils {
             val calculate = value.multiply(
                 PERCENTAGE_EXPENSES.toBigDecimal()
             ).divide(PERCENTAGE_HUNDRED.toBigDecimal())
-            return value.minus(calculate).format()
+            return calculate.format()
         }
     }
 
