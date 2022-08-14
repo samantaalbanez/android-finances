@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
-        android:name=".database.ApplicationDataBase"
+        android:name="br.com.finances.data.database.ApplicationDataBase"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Finances"
         android:screenOrientation="portrait">
         <activity
-            android:name=".view.MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Finances.NoActionBar">
             <intent-filter>
